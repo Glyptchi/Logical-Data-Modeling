@@ -1,0 +1,60 @@
+Table users {
+  user_id integer [pk]
+  username varchar [not null]
+  email varchar [not null, unique]
+  privacy_level varchar
+  notification_pref varchar
+  theme_color varchar
+}
+
+Table user_social_links {
+  user_id integer [not null]
+  social_link varchar [not null]
+
+  indexes {
+    (user_id, social_link) [pk]
+  }
+}
+
+Table communities {
+  comm_id integer [pk]
+  description text
+}
+
+Table joins {
+  user_id integer [not null]
+  comm_id integer [not null]
+  join_date timestamp
+
+  indexes {
+    (user_id, comm_id) [pk]
+  }
+}
+
+Table posts {
+  post_id integer [pk]
+  user_id integer [not null]
+  content text
+  timestamp timestamp
+  total_likes integer [note: 'Derived attribute']
+}
+
+Table comments {
+  comment_no integer [not null]
+  post_id integer [not null]
+  text text
+  post_time timestamp
+
+  indexes {
+    (post_id, comment_no) [pk]
+  }
+}
+
+Ref: users.user_id < user_social_links.user_id
+
+Ref: users.user_id < posts.user_id
+
+Ref: posts.post_id < comments.post_id
+
+Ref: users.user_id < joins.user_id
+Ref: communities.comm_id < joins.comm_id
