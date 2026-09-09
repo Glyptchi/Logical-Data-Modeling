@@ -1,0 +1,54 @@
+Table office {
+  office_id integer [PK, not null]
+  telephone integer
+  size integer
+}
+
+Table salesperson{
+  salesperson_id integer [PK, not null]
+  name varchar
+  commission_percentage decimal
+  year_of_hire integer
+
+  office_id integer [unique]
+  customer_id integer
+}
+
+Table sells {
+  salesperson_id integer [not null]
+  product_id integer [not null]
+
+  indexes {
+    (salesperson_id, product_id) [PK]
+  }
+}
+
+Table product {
+  product_id integer [PK, not null]
+  name varchar
+  price decimal
+}
+
+Table customer {
+  customer_id integer [pk]
+  name varchar
+  HQ_city varchar
+}
+
+Table customer_employee {
+  employee_id integer [pk, not null]
+  name varchar
+  title string
+
+  customer_id integer [not null]
+}
+
+Ref: salesperson.office_id - office.office_id
+Ref: salesperson.customer_id > customer.customer_id
+Ref: sells.salesperson_id > salesperson.salesperson_id
+Ref: sells.product_id > product.product_id
+Ref: customer_employee.customer_id > customer.customer_id
+
+
+
+
