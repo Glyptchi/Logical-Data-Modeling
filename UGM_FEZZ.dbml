@@ -1,5 +1,5 @@
 Table users {
-  user_id integer [pk]
+  user_id integer [pk, not null]
   username varchar [not null]
   email varchar [not null, unique]
   privacy_level varchar
@@ -17,7 +17,7 @@ Table user_social_links {
 }
 
 Table communities {
-  comm_id integer [pk]
+  comm_id integer [pk, not null]
   description text
 }
 
@@ -32,7 +32,7 @@ Table joins {
 }
 
 Table posts {
-  post_id integer [pk]
+  post_id integer [pk, not null]
   user_id integer [not null]
   content text
   timestamp timestamp
