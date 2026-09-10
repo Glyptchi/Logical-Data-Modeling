@@ -1,0 +1,47 @@
+Table orchestra {
+  orchestra_name varchar [pk]
+  city varchar
+  country varchar
+  music_director varchar
+}
+
+Table musician {
+  musician_id integer [pk]
+  musician_name varchar
+  instrument varchar
+  annual_salary decimal
+  orchestra_name varchar
+}
+
+Table degree {
+  degree varchar [pk]
+  university varchar
+  year integer
+  musician_id integer [not null]
+}
+
+Table composition {
+  composition_name varchar [pk]
+  year integer
+  composer_name varchar [not null]
+}
+
+Table composer {
+  composer_name varchar [pk]
+  country varchar
+  date_of_birth date
+}
+
+Table recorded {
+  recorded_id integer [pk]
+  orchestra_name varchar [not null]
+  composition_name varchar [not null]
+  year integer
+  price decimal
+}
+
+Ref: musician.orchestra_name >? orchestra.orchestra_name
+Ref: degree.musician_id ?> musician.musician_id
+Ref: recorded.orchestra_name ?> orchestra.orchestra_name
+Ref: recorded.composition_name ?> composition.composition_name
+Ref: composition.composer_name > composer.composer_name
