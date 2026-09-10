@@ -1,0 +1,44 @@
+Table manufacturer {
+  manufacturer_name varchar [pk]
+  manufacturer_country varchar
+  sales_rep_name varchar
+  sales_rep_telephone varchar
+}
+
+Table car {
+  car_serial_number varchar [pk]
+  model varchar
+  year integer
+  class varchar
+  manufacturer_name varchar [not null]
+}
+
+Table customer {
+  customer_id integer [pk]
+  customer_name varchar
+  customer_address varchar
+  customer_telephone varchar
+}
+
+Table maintenance_event {
+  repair_id integer [pk]
+  date date
+  procedure varchar
+  mileage integer
+  repair_time integer
+  car_serial_number varchar [not null]
+}
+
+Table rental {
+  rental_id integer [pk]
+  car_serial_number varchar [not null]
+  customer_id integer [not null]
+  rental_date date
+  return_date date
+  total_cost decimal
+}
+
+Ref: car.manufacturer_name > manufacturer.manufacturer_name
+Ref: maintenance_event.car_serial_number ?> car.car_serial_number
+Ref: rental.car_serial_number ?> car.car_serial_number
+Ref: rental.customer_id > customer.customer_id
