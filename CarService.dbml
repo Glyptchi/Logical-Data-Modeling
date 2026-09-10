@@ -1,0 +1,55 @@
+Table customer {
+  customer_id integer [pk]
+  name varchar
+  phone integer
+  email varchar [unique]
+  address varchar
+}
+
+Table vehicle {
+  VIN varchar [pk]
+  make varchar
+  model varchar
+  year integer
+  license_plate varchar
+  customer_id integer [not null]
+}
+
+Table mechanic {
+  mechanic_id integer [pk]
+  name varchar
+  speciality varchar
+  hire_date date
+}
+
+Table service_order {
+  order_id integer [pk]
+  order_date date
+  status varchar
+  total_cost decimal
+  VIN varchar [not null]
+  mechanic_id integer [not null]
+}
+
+Table part {
+  part_id integer [pk]
+  name varchar
+  unit_price decimal
+  quantity_in_stock integer
+}
+
+Table service_part {
+  order_id integer [not null]
+  part_id integer [not null]
+  quantity_used integer [not null]
+
+  indexes {
+    (order_id, part_id) [pk]
+  }
+}
+
+Ref: vehicle.customer_id > customer.customer_id
+Ref: vehicle.VIN < service_order.VIN
+Ref: mechanic.mechanic_id < service_order.mechanic_id
+Ref: part.part_id < service_part.part_id
+Ref: service_order.order_id < service_part.order_id
