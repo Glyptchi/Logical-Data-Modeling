@@ -1,30 +1,28 @@
 Table office {
-  office_id integer [PK, not null]
+  office_id integer [PK]
   telephone integer
   size integer
 }
 
 Table salesperson{
-  salesperson_id integer [PK, not null]
+  salesperson_id integer [PK]
   name varchar
   commission_percentage decimal
   year_of_hire integer
 
-  office_id integer [unique]
-  customer_id integer
+  office_id integer [unique, Ref: ?- office.office_id]
+  customer_id integer [unique]
 }
 
 Table sells {
+  sells_id integer [pk]
   salesperson_id integer [not null]
   product_id integer [not null]
 
-  indexes {
-    (salesperson_id, product_id) [PK]
-  }
 }
 
 Table product {
-  product_id integer [PK, not null]
+  product_id integer [PK]
   name varchar
   price decimal
 }
@@ -36,15 +34,14 @@ Table customer {
 }
 
 Table customer_employee {
-  employee_id integer [pk, not null]
+  employee_id integer [pk]
   name varchar
-  title string
+  title varchar
 
   customer_id integer [not null]
 }
 
-Ref: salesperson.office_id - office.office_id
-Ref: salesperson.customer_id > customer.customer_id
+Ref: salesperson.customer_id -? customer.customer_id
 Ref: sells.salesperson_id > salesperson.salesperson_id
 Ref: sells.product_id > product.product_id
 Ref: customer_employee.customer_id > customer.customer_id
